@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 
+import { Navbar } from "ui";
 import "./globals.css";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Listavia",
+  title: "LISTavia",
   description: "Manage your lists efficiently!",
 };
 
@@ -22,7 +23,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#492fb5" />
       </head>
-      <body className={montserrat.className}>{children}</body>
+      <body className={montserrat.className}>
+        <Navbar
+          sessions={[
+            { id: "1", title: "Default Session" },
+            { id: "2", title: "Session #1" },
+          ]}
+        />
+        {children}
+      </body>
     </html>
   );
 }
