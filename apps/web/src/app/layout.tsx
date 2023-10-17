@@ -25,12 +25,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className={montserrat.className}>
         <Navbar
+          username="geetsethi"
           sessions={[
             { id: "1", title: "Default Session" },
             { id: "2", title: "Session #1" },
           ]}
         />
-        {children}
+        <div className="mx-auto max-w-2xl">{children}</div>
       </body>
     </html>
   );
