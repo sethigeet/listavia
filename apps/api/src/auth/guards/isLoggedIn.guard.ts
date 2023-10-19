@@ -11,7 +11,7 @@ export class IsLoggedInGuard implements CanActivate {
 
     const sessId = request.cookies["sessId"];
     if (!sessId) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException("You must be logged in to access this route!");
     }
 
     const sess = await this.db.loginSession.findUnique({
@@ -23,7 +23,7 @@ export class IsLoggedInGuard implements CanActivate {
       },
     });
     if (sess === null) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException("You must be logged in to access this route!");
     }
 
     request.user = sess.user;

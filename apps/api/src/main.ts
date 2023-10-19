@@ -12,22 +12,25 @@ async function bootstrap() {
       transform: true,
       whitelist: true,
       exceptionFactory: (errors) => {
-        return new BadRequestException(
-          errors.reduce<{ [key: string]: string[] }>((acc, err) => {
-            if (err.constraints) {
-              acc[err.property] = acc[err.property] || [];
-              for (const key of Object.keys(err.constraints)) {
-                acc[err.property].push(err.constraints[key]);
-              }
+        const formattedErrors = errors.reduce<{ [key: string]: string[] }>((acc, err) => {
+          if (err.constraints) {
+            acc[err.property] = acc[err.property] || [];
+            for (const key of Object.keys(err.constraints)) {
+              acc[err.property].push(err.constraints[key]);
             }
-            return acc;
-          }, {}),
-        );
+          }
+          return acc;
+        }, {});
+        return new BadRequestException({ inputErrors: formattedErrors });
       },
     }),
   );
 
   app.use(cookieParser());
+  app.enableCors({
+    credentials: true,
+    origin: "http://localhost:3000",
+  });
 
   await app.listen(4000);
 }

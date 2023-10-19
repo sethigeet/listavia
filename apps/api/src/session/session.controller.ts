@@ -1,4 +1,14 @@
-import { Body, Controller, ForbiddenException, Get, HttpCode, HttpStatus, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  ForbiddenException,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  UseGuards,
+} from "@nestjs/common";
 import { User } from "@prisma/client";
 
 import { GetUser } from "src/user/decorators/user.decorator";
@@ -10,14 +20,14 @@ import { CreateSessionInputDto, DeleteSessionInputDto } from "./dto";
 export class SessionController {
   constructor(private sessionService: SessionService) {}
 
-  @Get("getAll")
+  @Get()
   @UseGuards(IsLoggedInGuard)
   async getAll(@GetUser() user: User) {
     return this.sessionService.getSessions(user.id);
   }
 
   @HttpCode(HttpStatus.CREATED)
-  @Get("create")
+  @Post()
   @UseGuards(IsLoggedInGuard)
   async create(@GetUser() user: User, @Body() input: CreateSessionInputDto) {
     return this.sessionService.createSession({
@@ -31,7 +41,7 @@ export class SessionController {
   }
 
   @HttpCode(HttpStatus.ACCEPTED)
-  @Get("delete")
+  @Delete()
   @UseGuards(IsLoggedInGuard)
   async delete(@GetUser() user: User, @Body() input: DeleteSessionInputDto) {
     const session = await this.sessionService.getSession(input.id);

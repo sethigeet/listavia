@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 
 import { Prisma, User } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { hash, verify } from "argon2";
+import { hash } from "argon2";
 import { v4 as uuidv4 } from "uuid";
 
 import { DatabaseService } from "src/database/database.service";
@@ -30,13 +30,8 @@ export class AuthService {
     }
   }
 
-  async checkPassword(username: string, password: string): Promise<boolean | null> {
-    const user = await this.db.user.findUnique({ where: { username } });
-    if (user == null) {
-      return null;
-    }
-
-    return verify(user.password, password);
+  async getUser(username: string): Promise<User | null> {
+    return await this.db.user.findUnique({ where: { username } });
   }
 
   async login(username: string): Promise<string> {

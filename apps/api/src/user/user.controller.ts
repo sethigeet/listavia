@@ -14,8 +14,10 @@ export class UserController {
   @UseGuards(IsLoggedInGuard)
   async me(@GetUser() user: User) {
     return {
-      id: user.id,
-      username: user.username,
+      user: {
+        id: user.id,
+        username: user.username,
+      },
     };
   }
 }

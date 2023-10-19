@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 
-import { Navbar } from "ui";
+import { APIClientProvider } from "../lib";
 import "./globals.css";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
@@ -24,14 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="theme-color" content="#492fb5" />
       </head>
       <body className={montserrat.className}>
-        <Navbar
-          username="geetsethi"
-          sessions={[
-            { id: "1", title: "Default Session" },
-            { id: "2", title: "Session #1" },
-          ]}
-        />
-        <div className="mx-auto max-w-2xl">{children}</div>
+        <APIClientProvider>{children}</APIClientProvider>
       </body>
     </html>
   );

@@ -2,6 +2,9 @@
 /dist
 /node_modules
 
+# testing database
+prisma/*.db
+
 # Logs
 logs
 *.log

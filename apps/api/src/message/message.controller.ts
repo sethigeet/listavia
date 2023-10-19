@@ -1,11 +1,13 @@
 import {
   Body,
   Controller,
+  Delete,
   ForbiddenException,
   Get,
   HttpCode,
   HttpStatus,
   NotFoundException,
+  Post,
   UseGuards,
 } from "@nestjs/common";
 import { User } from "@prisma/client";
@@ -19,7 +21,7 @@ import { CreateMessageInputDto, DeleteMessageInputDto, GetMessagesInputDto } fro
 export class MessageController {
   constructor(private messageService: MessageService) {}
 
-  @Get("getAll")
+  @Get()
   @UseGuards(IsLoggedInGuard)
   async getAll(@GetUser() user: User, @Body() input: GetMessagesInputDto) {
     const session = await this.messageService.getSession(input.sessionId);
@@ -35,7 +37,7 @@ export class MessageController {
   }
 
   @HttpCode(HttpStatus.CREATED)
-  @Get("create")
+  @Post()
   @UseGuards(IsLoggedInGuard)
   async create(@GetUser() user: User, @Body() input: CreateMessageInputDto) {
     const session = await this.messageService.getSession(input.sessionId);
@@ -58,7 +60,7 @@ export class MessageController {
   }
 
   @HttpCode(HttpStatus.ACCEPTED)
-  @Get("delete")
+  @Delete()
   @UseGuards(IsLoggedInGuard)
   async delete(@GetUser() user: User, @Body() input: DeleteMessageInputDto) {
     const msg = await this.messageService.getMessage(input.id);

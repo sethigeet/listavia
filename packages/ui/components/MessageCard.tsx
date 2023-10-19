@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { DeleteIcon } from "./icons";
+import { DeleteIcon } from "../icons";
 
 export interface Message {
   msg: string;

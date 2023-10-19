@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { ClockIcon, MenuIcon, UserIcon } from "./icons";
+import { ClockIcon, MenuIcon, UserIcon } from "../icons";
 
 interface Session {
   id: string;
@@ -10,9 +10,10 @@ interface Session {
 interface NavbarProps {
   username?: string;
   sessions?: Session[];
+  logoutFn?: () => void;
 }
 
-export const Navbar: FC<NavbarProps> = ({ username, sessions }) => {
+export const Navbar: FC<NavbarProps> = ({ username, sessions, logoutFn = () => {} }) => {
   return (
     <div className="navbar bg-primary text-primary-content">
       <div className="navbar-start">
@@ -20,7 +21,6 @@ export const Navbar: FC<NavbarProps> = ({ username, sessions }) => {
           <div className="drawer">
             <input id="sessions-drawer" type="checkbox" className="drawer-toggle" />
             <div className="drawer-content">
-              {/* Page content here */}
               <label htmlFor="sessions-drawer" className="btn btn-circle btn-ghost">
                 <MenuIcon className="h-5 w-5" />
               </label>
@@ -67,7 +67,7 @@ export const Navbar: FC<NavbarProps> = ({ username, sessions }) => {
                 </span>
               </li>
               <li>
-                <a>Logout</a>
+                <button onClick={() => logoutFn()}>Logout</button>
               </li>
             </ul>
           </div>
