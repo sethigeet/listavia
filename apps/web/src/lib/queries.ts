@@ -77,9 +77,9 @@ export const useLogoutMutation = (router: Router) =>
   useMutation("logout", mutateFns.logout, {
     onSuccess: (data) => {
       if (data && !data.error) {
-        router.replace("/login", { scroll: false });
-        queryClient.cancelQueries("me");
+        queryClient.clear();
         queryClient.setQueryData("me", { error: "Unauthorized" });
+        router.replace("/login", { scroll: false });
       }
     },
   });
@@ -88,9 +88,9 @@ export const useLoginMutation = (router: Router) =>
   useMutation(mutateFns.login, {
     onSuccess(data) {
       if (data && data.user) {
-        router.replace("/", { scroll: false });
-        queryClient.cancelQueries("me");
+        queryClient.clear();
         queryClient.setQueryData("me", data);
+        router.replace("/", { scroll: false });
       }
     },
   });
@@ -99,9 +99,9 @@ export const useRegisterMutation = (router: Router) =>
   useMutation(mutateFns.register, {
     onSuccess(data) {
       if (data && data.user) {
-        router.replace("/", { scroll: false });
-        queryClient.cancelQueries("me");
+        queryClient.clear();
         queryClient.setQueryData("me", data);
+        router.replace("/", { scroll: false });
       }
     },
   });
