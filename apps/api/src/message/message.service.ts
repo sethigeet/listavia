@@ -35,6 +35,9 @@ export class MessageService {
       where: {
         sessionId,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
   }
 

@@ -11,27 +11,31 @@ model User {
   id            String         @id @default(uuid())
   username      String         @unique
   password      String
+  createdAt     DateTime       @default(now())
   sessions      Session[]
   loginSessions LoginSession[]
 }
 
 model Session {
-  id      String    @id @default(uuid())
-  title   String
-  owner   User      @relation(fields: [ownerId], references: [id])
-  ownerId String
-  Message Message[]
+  id        String    @id @default(uuid())
+  title     String
+  createdAt DateTime  @default(now())
+  owner     User      @relation(fields: [ownerId], references: [id])
+  ownerId   String
+  Message   Message[]
 }
 
 model Message {
-  id        String  @id @default(uuid())
+  id        String   @id @default(uuid())
   msg       String
-  session   Session @relation(fields: [sessionId], references: [id])
+  createdAt DateTime @default(now())
+  session   Session  @relation(fields: [sessionId], references: [id])
   sessionId String
 }
 
 model LoginSession {
-  id       String @id
-  user     User   @relation(fields: [username], references: [username])
-  username String
+  id        String   @id
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [username], references: [username])
+  username  String
 }
