@@ -1,81 +1,35 @@
-# Turborepo starter
+# LISTavia
 
-This is an official starter Turborepo.
+A simple app that lets you make different sessions and have messages in each session separate from each other with full authentication and multi-user support!
 
-## Using this example
+## Usage
 
-Run the following command:
+**NOTE:** This is a monorepo which contains both the backend and the frontend along with some configuration packages and a UI library.
 
-```sh
-npx create-turbo@latest
-```
+1. Begin by cloning this repo to your computer: `git clone https://github.com/sethigeet/listavia`
+1. Next, change directory to this cloned repo: `cd listavia`
+1. Now install the required dependencies using your preferred package manager (though I use `pnpm`): `pnpm install`
+1. Now go ahead and build all the required apps in the repo: `pnpm -w build`
+1. Add the required environment variables either through your running shell or by creating a `.env` file in the `apps/api` directory. (To see the required variables, see `.env.example` in `apps/api`)
+1. To run the backend, go into the `api` app and run the built app: `cd apps/api; pnpm start:prod`
+1. To run the frontend, go into the `web` app and run the built app: `cd app/web; pnpm start`
 
-## What's inside?
+Now go ahead and view the running app at [localhost:3000](http://localhost:3000) and see the API docs at [localhost:4000/docs](http://localhost:4000/docs)
 
-This Turborepo includes the following packages/apps:
+**NOTE:** This project currently uses `sqlite` as the database though this can be easily changed by changing the driver that is being used by prisma in `apps/api/prisma/schema.prisma`. For development or testing purposes, you can use `sqlite`. For this, set the `DATABASE_URL` environment variable to `"file:./dev.db"`
 
-### Apps and Packages
+**NOTE:** You might see some errors regarding config files for `eslint` during the build process but these errors actually do not exist but show up when you build each app separately during the build process of the workspace and this is a monorepo and all config files are shared!
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `ui`: a stub React component library shared by both `web` and `docs` applications
-- `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
+## Technologies Used
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm dev
-```
-
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+- Typescript
+- Node.js
+- Nest.js
+- React.js
+- Next.js
+- TailwindCSS
+- TurboRepo
+- Prisma
+- Eslint
+- Prettier
+- ... and many more
