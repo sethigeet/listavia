@@ -1,6 +1,6 @@
-import { FC } from "react";
+import { FC, useRef } from "react";
 
-import { ClockIcon, MenuIcon, UserIcon } from "../icons";
+import { ClockIcon, MenuIcon, PlusIcon, UserIcon } from "../icons";
 
 interface Session {
   id: string;
@@ -10,10 +10,20 @@ interface Session {
 interface NavbarProps {
   username?: string;
   sessions?: Session[];
+  setSessionId?: (id: string) => void;
+  openCreateSessionModal?: () => void;
   logoutFn?: () => void;
 }
 
-export const Navbar: FC<NavbarProps> = ({ username, sessions, logoutFn = () => {} }) => {
+export const Navbar: FC<NavbarProps> = ({
+  username,
+  sessions,
+  setSessionId,
+  openCreateSessionModal,
+  logoutFn = () => {},
+}) => {
+  const drawerBtnLabelRef = useRef<HTMLLabelElement>(null);
+
   return (
     <div className="navbar bg-primary text-primary-content">
       <div className="navbar-start">
@@ -21,7 +31,7 @@ export const Navbar: FC<NavbarProps> = ({ username, sessions, logoutFn = () => {
           <div className="drawer">
             <input id="sessions-drawer" type="checkbox" className="drawer-toggle" />
             <div className="drawer-content">
-              <label htmlFor="sessions-drawer" className="btn btn-circle btn-ghost">
+              <label ref={drawerBtnLabelRef} htmlFor="sessions-drawer" className="btn btn-circle btn-ghost">
                 <MenuIcon className="h-5 w-5" />
               </label>
             </div>
@@ -33,11 +43,33 @@ export const Navbar: FC<NavbarProps> = ({ username, sessions, logoutFn = () => {
                   Sessions
                 </h2>
                 {sessions ? (
-                  sessions.map(({ id, title }) => (
-                    <li key={id}>
-                      <a>{title}</a>
-                    </li>
-                  ))
+                  <>
+                    {sessions.length > 0 ? (
+                      sessions.map(({ id, title }) => (
+                        <li key={id}>
+                          <button
+                            onClick={() => {
+                              setSessionId?.(id);
+                              drawerBtnLabelRef.current?.click();
+                            }}
+                          >
+                            {title}
+                          </button>
+                        </li>
+                      ))
+                    ) : (
+                      <span className="text-center text-sm">You don't have any sessions created!</span>
+                    )}
+                    <button
+                      className="btn btn-ghost font-medium"
+                      onClick={() => {
+                        openCreateSessionModal?.();
+                        drawerBtnLabelRef.current?.click();
+                      }}
+                    >
+                      Create New <PlusIcon className="h-5 w-5" />
+                    </button>
+                  </>
                 ) : (
                   <span className="text-center text-sm">Please login first!</span>
                 )}

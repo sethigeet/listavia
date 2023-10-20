@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   ForbiddenException,
-  Get,
   HttpCode,
   HttpStatus,
   NotFoundException,
@@ -21,7 +20,7 @@ import { CreateMessageInputDto, DeleteMessageInputDto, GetMessagesInputDto } fro
 export class MessageController {
   constructor(private messageService: MessageService) {}
 
-  @Get()
+  @Post("getAll")
   @UseGuards(IsLoggedInGuard)
   async getAll(@GetUser() user: User, @Body() input: GetMessagesInputDto) {
     const session = await this.messageService.getSession(input.sessionId);

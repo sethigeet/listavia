@@ -17,10 +17,10 @@ export const MessageCard: FC<MessageCardProps> = ({ msg }) => {
         {/* <h2 className="card-title">{msg.msg}</h2> */}
         <p className="">{msg.msg}</p>
         <div className="card-actions justify-between">
-          <span className="mt-auto text-xs text-base-content">{msg.timeCreated}</span>
-          <button className="text-md btn btn-ghost text-error">
+          <span className="mt-auto text-xs text-base-content">{msg.timeCreated || "abcd"}</span>
+          {/* <button className="text-md btn btn-ghost text-error">
             Delete <DeleteIcon className="h-4 w-4" />
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

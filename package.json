@@ -18,7 +18,6 @@
   "packageManager": "pnpm@8.6.10",
   "name": "listavia",
   "lint-staged": {
-    "*.{ts,tsx}": "eslint --cache --fix",
     "*.{ts,tsx,md}": "prettier --write"
   }
 }
