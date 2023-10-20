@@ -18,6 +18,7 @@ import { LoginInputDto, RegisterInputDto } from "./dto";
 import { AuthService } from "./auth.service";
 import { IsLoggedInGuard } from "./guards/isLoggedIn.guard";
 import { verify } from "argon2";
+import { ApiConflictResponse, ApiCreatedResponse, ApiOkResponse, ApiUnauthorizedResponse } from "@nestjs/swagger";
 
 @Controller("auth")
 export class AuthController {
@@ -25,6 +26,9 @@ export class AuthController {
 
   @HttpCode(HttpStatus.CREATED)
   @Post("register")
+  @ApiCreatedResponse({ description: "The user has been successfully registered." })
+  @ApiConflictResponse({ description: "A user with the given username already exists." })
+  @ApiUnauthorizedResponse({ description: "You are not authorized to do this action." })
   async register(@Body() input: RegisterInputDto, @Res({ passthrough: true }) res: Response) {
     const user = await this.authService.createUser(input);
     if (user == null) {
@@ -47,6 +51,8 @@ export class AuthController {
   }
 
   @Post("login")
+  @ApiCreatedResponse({ description: "The user has been successfully logged in." })
+  @ApiUnauthorizedResponse({ description: "You are not authorized to do this action." })
   async login(@Body() input: LoginInputDto, @Res({ passthrough: true }) res: Response) {
     const user = await this.authService.getUser(input.username);
     if (user == null) {
@@ -75,6 +81,8 @@ export class AuthController {
 
   @Get("logout")
   @UseGuards(IsLoggedInGuard)
+  @ApiOkResponse({ description: "The given user has been successfully logged out." })
+  @ApiUnauthorizedResponse({ description: "You are not authorized to do this action." })
   async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const sessId = req.cookies["sessId"];
 

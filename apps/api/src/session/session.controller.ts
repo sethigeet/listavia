@@ -1,14 +1,5 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  ForbiddenException,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Post,
-  UseGuards,
-} from "@nestjs/common";
+import { Body, Controller, ForbiddenException, Get, HttpCode, HttpStatus, Post, UseGuards } from "@nestjs/common";
+import { ApiAcceptedResponse, ApiCreatedResponse, ApiOkResponse, ApiUnauthorizedResponse } from "@nestjs/swagger";
 import { User } from "@prisma/client";
 
 import { GetUser } from "src/user/decorators/user.decorator";
@@ -22,6 +13,8 @@ export class SessionController {
 
   @Get()
   @UseGuards(IsLoggedInGuard)
+  @ApiOkResponse({ description: "All the sessions for the currently logged in user are returned successfully." })
+  @ApiUnauthorizedResponse({ description: "You are not authorized to do this action." })
   async getAll(@GetUser() user: User) {
     return this.sessionService.getSessions(user.id);
   }
@@ -29,6 +22,8 @@ export class SessionController {
   @HttpCode(HttpStatus.CREATED)
   @Post()
   @UseGuards(IsLoggedInGuard)
+  @ApiCreatedResponse({ description: "The session with the given name was created successfully" })
+  @ApiUnauthorizedResponse({ description: "You are not authorized to do this action." })
   async create(@GetUser() user: User, @Body() input: CreateSessionInputDto) {
     return this.sessionService.createSession({
       owner: {
@@ -41,8 +36,10 @@ export class SessionController {
   }
 
   @HttpCode(HttpStatus.ACCEPTED)
-  @Delete()
+  @Post()
   @UseGuards(IsLoggedInGuard)
+  @ApiAcceptedResponse({ description: "The session has been successfully deleted." })
+  @ApiUnauthorizedResponse({ description: "You are not authorized to do this action." })
   async delete(@GetUser() user: User, @Body() input: DeleteSessionInputDto) {
     const session = await this.sessionService.getSession(input.id);
     if (session === null) {

@@ -1,4 +1,5 @@
 import { Controller, Get, UseGuards } from "@nestjs/common";
+import { ApiOkResponse, ApiUnauthorizedResponse } from "@nestjs/swagger";
 
 import { UserService } from "./user.service";
 import { IsLoggedInGuard } from "../auth/guards/isLoggedIn.guard";
@@ -12,6 +13,8 @@ export class UserController {
 
   @Get("me")
   @UseGuards(IsLoggedInGuard)
+  @ApiOkResponse({ description: "The details of the user are returned successfully." })
+  @ApiUnauthorizedResponse({ description: "You are not authorized to do this action." })
   async me(@GetUser() user: User) {
     return {
       user: {

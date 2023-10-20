@@ -1,7 +1,6 @@
 import {
   Body,
   Controller,
-  Delete,
   ForbiddenException,
   HttpCode,
   HttpStatus,
@@ -9,6 +8,7 @@ import {
   Post,
   UseGuards,
 } from "@nestjs/common";
+import { ApiAcceptedResponse, ApiCreatedResponse, ApiOkResponse, ApiUnauthorizedResponse } from "@nestjs/swagger";
 import { User } from "@prisma/client";
 
 import { GetUser } from "src/user/decorators/user.decorator";
@@ -22,6 +22,8 @@ export class MessageController {
 
   @Post("getAll")
   @UseGuards(IsLoggedInGuard)
+  @ApiOkResponse({ description: "All the messages for the given session are returned successfully." })
+  @ApiUnauthorizedResponse({ description: "You are not authorized to do this action." })
   async getAll(@GetUser() user: User, @Body() input: GetMessagesInputDto) {
     const session = await this.messageService.getSession(input.sessionId);
     if (session === null) {
@@ -38,6 +40,8 @@ export class MessageController {
   @HttpCode(HttpStatus.CREATED)
   @Post()
   @UseGuards(IsLoggedInGuard)
+  @ApiCreatedResponse({ description: "The message with the given content was created successfully" })
+  @ApiUnauthorizedResponse({ description: "You are not authorized to do this action." })
   async create(@GetUser() user: User, @Body() input: CreateMessageInputDto) {
     const session = await this.messageService.getSession(input.sessionId);
     if (session === null) {
@@ -59,8 +63,10 @@ export class MessageController {
   }
 
   @HttpCode(HttpStatus.ACCEPTED)
-  @Delete()
+  @Post()
   @UseGuards(IsLoggedInGuard)
+  @ApiAcceptedResponse({ description: "The message has been successfully deleted." })
+  @ApiUnauthorizedResponse({ description: "You are not authorized to do this action." })
   async delete(@GetUser() user: User, @Body() input: DeleteMessageInputDto) {
     const msg = await this.messageService.getMessage(input.id);
     if (msg === null) {
