@@ -2,7 +2,7 @@ import { Body, Controller, ForbiddenException, Get, HttpCode, HttpStatus, Post, 
 import { ApiAcceptedResponse, ApiCreatedResponse, ApiOkResponse, ApiUnauthorizedResponse } from "@nestjs/swagger";
 import { User } from "@prisma/client";
 
-import { GetUser } from "src/user/decorators/user.decorator";
+import { GetUser } from "@/user/decorators/user.decorator";
 import { IsLoggedInGuard } from "../auth/guards/isLoggedIn.guard";
 import { SessionService } from "./session.service";
 import { CreateSessionInputDto, DeleteSessionInputDto } from "./dto";

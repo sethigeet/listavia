@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from "@nestjs/common";
 
-import { DatabaseService } from "src/database/database.service";
-import { Request } from "src/types";
+import { DatabaseService } from "@/database/database.service";
+import { Request } from "@/types";
 
 @Injectable()
 export class IsLoggedInGuard implements CanActivate {

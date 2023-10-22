@@ -11,7 +11,7 @@ import {
 import { ApiAcceptedResponse, ApiCreatedResponse, ApiOkResponse, ApiUnauthorizedResponse } from "@nestjs/swagger";
 import { User } from "@prisma/client";
 
-import { GetUser } from "src/user/decorators/user.decorator";
+import { GetUser } from "@/user/decorators/user.decorator";
 import { IsLoggedInGuard } from "../auth/guards/isLoggedIn.guard";
 import { MessageService } from "./message.service";
 import { CreateMessageInputDto, DeleteMessageInputDto, GetMessagesInputDto } from "./dto";
@@ -70,7 +70,7 @@ export class MessageController {
   async delete(@GetUser() user: User, @Body() input: DeleteMessageInputDto) {
     const msg = await this.messageService.getMessage(input.id);
     if (msg === null) {
-      return;
+      throw new NotFoundException("A message with that id does not exist!");
     }
 
     if (msg.session.ownerId !== user.id) {
