@@ -1,4 +1,14 @@
-import { Body, Controller, ForbiddenException, Get, HttpCode, HttpStatus, Post, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  ForbiddenException,
+  Get,
+  HttpCode,
+  HttpStatus,
+  NotFoundException,
+  Post,
+  UseGuards,
+} from "@nestjs/common";
 import { ApiAcceptedResponse, ApiCreatedResponse, ApiOkResponse, ApiUnauthorizedResponse } from "@nestjs/swagger";
 import { User } from "@prisma/client";
 
@@ -43,7 +53,7 @@ export class SessionController {
   async delete(@GetUser() user: User, @Body() input: DeleteSessionInputDto) {
     const session = await this.sessionService.getSession(input.id);
     if (session === null) {
-      return;
+      throw new NotFoundException("A session with that ID does not exist!");
     }
     if (session.ownerId !== user.id) {
       throw new ForbiddenException("You don't own this session!");
