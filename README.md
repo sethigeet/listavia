@@ -33,3 +33,13 @@ Now go ahead and view the running app at [localhost:3000](http://localhost:3000)
 - Eslint
 - Prettier
 - ... and many more
+
+## Preview
+
+![Home Page](docs/images/home.png)
+
+![Session Selection](docs/images/sessions.png)
+
+![Login Page](docs/images/login.png)
+
+![API Docs](docs/images/api-docs.png)
